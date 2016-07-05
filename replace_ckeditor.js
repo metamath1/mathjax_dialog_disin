@@ -1,0 +1,2 @@
+/* Find CKEDITOR.plugins.mathjax.trim and replace follow line in your ckeditor.js */
+CKEDITOR.plugins.mathjax.trim=function(b){var c=b.indexOf("\\[")+2,a=b.lastIndexOf("\\]"); if(b.substring(c,a)==="\\"){c=b.indexOf("\\(")+2; a=b.lastIndexOf("\\)");} return b.substring(c,a)};
