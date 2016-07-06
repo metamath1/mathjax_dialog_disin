@@ -24,7 +24,7 @@ elements:[
 id:"equation",
 type:"textarea",
 label:b.dialogInput,
-onLoad:function(){var a=this;if(!(CKEDITOR.env.ie&&8==CKEDITOR.env.version))this.getInputElement().on("keyup",function(){ var mark_a=''; var mark_b=''; if(dialog.getContentElement( 'info', 'inline' ).getValue()){mark_a='\\(';mark_b='\\)';}else{mark_a='\\[';mark_b='\\]';} c.setValue(mark_a+a.getInputElement().getValue()+mark_b)})},
+onLoad:function(){var a=this;if(!(CKEDITOR.env.ie&&8==CKEDITOR.env.version))this.getInputElement().on("keyup",function(){ var mark_a=''; var mark_b=''; var dialog = a.getDialog( ); if(dialog.getContentElement( 'info', 'inline' ).getValue()){mark_a='\\(';mark_b='\\)';}else{mark_a='\\[';mark_b='\\]';} c.setValue(mark_a+a.getInputElement().getValue()+mark_b)})},
 setup:function(a){this.setValue(CKEDITOR.plugins.mathjax.trim(a.data.math))},
 commit:function(a){ var mark_a=''; var mark_b=''; var dialog = this.getDialog( ); if(dialog.getContentElement( 'info', 'inline' ).getValue()){mark_a='\\(';mark_b='\\)';}else{mark_a='\\[';mark_b='\\]';} a.setData("math",mark_a+this.getValue()+mark_b)}
 },
