@@ -11,7 +11,6 @@ CKEDITOR.dialog.add("mathjax",function(d){var c,b=d.lang.mathjax;return{title:b.
 "\\)")}},{id:"documentation",type:"html",html:'<div style="width:100%;text-align:right;margin:-8px 0 10px"><a class="cke_mathjax_doc" href="'+b.docUrl+'" target="_black" style="cursor:pointer;color:#00B2CE;text-decoration:underline">'+b.docLabel+"</a></div>"},!(CKEDITOR.env.ie&&8==CKEDITOR.env.version)&&{id:"preview",type:"html",html:'<div style="width:100%;text-align:center;"><iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true" src="'+CKEDITOR.plugins.mathjax.fixSrc+
 '"></iframe></div>',onLoad:function(){var a=CKEDITOR.document.getById(this.domId).getChild(0);c=new CKEDITOR.plugins.mathjax.frameWrapper(a,d)},setup:function(a){c.setValue(a.data.math)}}]}]}});
 */
-
 CKEDITOR.dialog.add("mathjax",
 function(d){
 var c,b=d.lang.mathjax;return{
@@ -25,7 +24,21 @@ id:"equation",
 type:"textarea",
 label:b.dialogInput,
 onLoad:function(){var a=this;if(!(CKEDITOR.env.ie&&8==CKEDITOR.env.version))this.getInputElement().on("keyup",function(){ var mark_a=''; var mark_b=''; var dialog = a.getDialog( ); if(dialog.getContentElement( 'info', 'inline' ).getValue()){mark_a='\\(';mark_b='\\)';}else{mark_a='\\[';mark_b='\\]';} c.setValue(mark_a+a.getInputElement().getValue()+mark_b)})},
-setup:function(a){this.setValue(CKEDITOR.plugins.mathjax.trim(a.data.math))},
+setup:function(a){this.setValue(CKEDITOR.plugins.mathjax.trim(a.data.math)); 
+//console.log(a.data.math); 
+var dialog = this.getDialog( );
+const regex = /\\\(/g;
+console.log(a.data.math);
+let m;
+while ((m = regex.exec(a.data.math)) !== null) {
+    // This is necessary to avoid infinite loops with zero-width matches
+    if (m.index === regex.lastIndex) {
+        regex.lastIndex++;
+    }
+    
+    dialog.getContentElement( 'info', 'inline' ).setValue(true);
+}
+},
 commit:function(a){ var mark_a=''; var mark_b=''; var dialog = this.getDialog( ); if(dialog.getContentElement( 'info', 'inline' ).getValue()){mark_a='\\(';mark_b='\\)';}else{mark_a='\\[';mark_b='\\]';} a.setData("math",mark_a+this.getValue()+mark_b)}
 },
 {
@@ -39,6 +52,13 @@ id:"documentation",
 type:"html",
 html:'<div style="width:100%;text-align:right;margin:-8px 0 10px"><a class="cke_mathjax_doc" href="'+b.docUrl+'" target="_black" style="cursor:pointer;color:#00B2CE;text-decoration:underline">'+b.docLabel+"</a></div>"
 },
-!(CKEDITOR.env.ie&&8==CKEDITOR.env.version)&&{id:"preview",type:"html",html:'<div style="width:100%;text-align:center;"><iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true" src="'+CKEDITOR.plugins.mathjax.fixSrc+
-'"></iframe></div>',onLoad:function(){var a=CKEDITOR.document.getById(this.domId).getChild(0);c=new CKEDITOR.plugins.mathjax.frameWrapper(a,d)},setup:function(a){c.setValue(a.data.math)}}]}]}});
-
+!(CKEDITOR.env.ie&&8==CKEDITOR.env.version)&&
+{
+id:"preview",type:"html",html:'<div style="width:100%;text-align:center;"><iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true" src="'+CKEDITOR.plugins.mathjax.fixSrc+'"></iframe></div>',
+onLoad:function(){
+    var a=CKEDITOR.document.getById(this.domId).getChild(0);
+    c=new CKEDITOR.plugins.mathjax.frameWrapper(a,d);
+},
+setup:function(a){c.setValue(a.data.math)}
+}
+]}]}});
